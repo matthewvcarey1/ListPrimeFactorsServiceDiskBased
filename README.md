@@ -28,8 +28,9 @@ Then
 ```
  and 
 ``` 
-./gradlew clean bootRun will work.
+./gradlew clean bootRun
 ```
+will work.
 
 If you generate a full size db at least up to 0x100000000 it should factorize values up to MAX LONG. If you do up to 0x1000000000 factorizing some values will be quicker but the disk based db will inittially be much bigger.
 
