@@ -14,7 +14,7 @@ It is a Gradle Springboot java program. It is based on the earlier java standalo
 
 I have tidied up the original routines to make them more in line with the "Functional" use of Java.
 
-There are two other programs needed, one to generate all the primes called [generatePrimes](https://github.com/matthewvcarey1/generatePrimes) and another to load them into the disk based set called [buildDiskLongSet](https://github.com/matthewvcarey1/BuildDiskLongSet). 
+There are two other programs needed, one to generate a large set of the primes called [generatePrimes](https://github.com/matthewvcarey1/generatePrimes) and another to load them into the disk based set called [buildDiskLongSet](https://github.com/matthewvcarey1/BuildDiskLongSet). 
 
 Generating the primes is quite quick, but loading them into the disk based TreeSet is very slow indeed (40 Hours).
 
