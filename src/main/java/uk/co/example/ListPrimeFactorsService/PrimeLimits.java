@@ -1,17 +1,24 @@
 package uk.co.example.ListPrimeFactorsService;
 
-public class PrimeLimits {
-    private final String lowerLimit;
-    private final String upperLimit;
+import java.io.Serializable;
 
-    private final String error;
+public class PrimeLimits implements Serializable {
+    private String lowerLimit;
+    private  String upperLimit;
 
-    public PrimeLimits(String lower, String upper, String error){
-        lowerLimit = lower;
-        upperLimit = upper;
-        this.error = error;
+    private  String error;
+
+
+    public void setLowerLimit(String limit){
+        lowerLimit = limit;
+    }
+    public void setUpperLimit(String limit){
+        upperLimit = limit;
     }
 
+    public void setError(String e){
+        error = e;
+    }
     public String getUpperLimit(){
         return upperLimit;
     }
