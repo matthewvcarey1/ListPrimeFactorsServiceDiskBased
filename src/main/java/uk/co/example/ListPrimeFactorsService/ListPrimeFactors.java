@@ -6,6 +6,8 @@ import org.mapdb.DB;
 import org.mapdb.DBException;
 import org.mapdb.DBMaker;
 import org.mapdb.Serializer;
+import org.springframework.cache.annotation.Cacheable;
+
 
 public class ListPrimeFactors {
 
@@ -14,12 +16,14 @@ public class ListPrimeFactors {
     private NavigableSet<Long>  primeSet;
     private static ListPrimeFactors INSTANCE;
 
+    private LRUCache cache;
     public synchronized static ListPrimeFactors getInstance(String path, String limitStr) {
         if (INSTANCE == null) {
             INSTANCE = new ListPrimeFactors(path, limitStr);
         }
         return INSTANCE;
     }
+
 
     private DB db;
     private ListPrimeFactors(String path, String limitStr){
@@ -40,13 +44,22 @@ public class ListPrimeFactors {
             e.printStackTrace();
             primeSet = null;
         }
+        cache =  new LRUCache(100);
 
     }
+
+
+
     public String ListFactorsString(long num) {
+        String cachedResult = cache.get(num);
+        if(cachedResult != null) return cachedResult;
         ArrayList<Long> factorsIn = new ArrayList<>();
         ArrayList<Long> factors	= Factors.listFactors(num, primeSet, factorsIn, db);
         ArrayList<BaseExponent> lbe = BuildBaseExponentList.build(factors);
-        return generateBaseExponentFactorsString(lbe);
+        String result = generateBaseExponentFactorsString(lbe);
+        cache.put(num, result);
+        return result;
+
     }
 
     public static String generateBaseExponentFactorsString(ArrayList<BaseExponent> lbe) {
