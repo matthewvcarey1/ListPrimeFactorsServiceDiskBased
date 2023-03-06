@@ -54,10 +54,16 @@ public class ListPrimeFactors {
         String cachedResult = cache.get(num);
         if(cachedResult != null) return cachedResult;
         ArrayList<Long> factorsIn = new ArrayList<>();
+        long startTime = System.currentTimeMillis();
         ArrayList<Long> factors	= Factors.listFactors(num, primeSet, factorsIn, db);
+        long endTime = System.currentTimeMillis();
         ArrayList<BaseExponent> lbe = BuildBaseExponentList.build(factors);
         String result = generateBaseExponentFactorsString(lbe);
-        cache.put(num, result);
+        long timeTaken = endTime-startTime;
+        if(timeTaken > 1000){
+            System.out.println("caching result time taken " + timeTaken + " for " + num);
+            cache.put(num, result);
+        }
         return result;
 
     }
