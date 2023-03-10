@@ -5,9 +5,11 @@ import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -18,9 +20,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@TestPropertySource("classpath:application.properties")
 class ListPrimeFactorsServiceApplicationTest {
     @Autowired
     private MockMvc mockMvc;
+
+    @Value("${upperLimitString}")
+    String upperLimitString;
 
     @Test
     void contextLoads() {
@@ -46,10 +52,11 @@ class ListPrimeFactorsServiceApplicationTest {
 
     @Test
     public void getPrimeLimits() throws Exception {
+
         this.mockMvc.perform(get("/primeLimits/"))
                 .andDo(print()).andExpect(status().isOk())
                 .andExpect(jsonPath("$.lowerLimit").value("2"))
-                .andExpect(jsonPath("$.upperLimit").value("4294967296"));
+                .andExpect(jsonPath("$.upperLimit").value(upperLimitString));
     }
 }
 

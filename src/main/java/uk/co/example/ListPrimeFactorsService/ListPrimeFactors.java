@@ -6,7 +6,6 @@ import org.mapdb.DB;
 import org.mapdb.DBException;
 import org.mapdb.DBMaker;
 import org.mapdb.Serializer;
-import org.springframework.cache.annotation.Cacheable;
 
 
 public class ListPrimeFactors {
@@ -17,16 +16,20 @@ public class ListPrimeFactors {
     private static ListPrimeFactors INSTANCE;
 
     private LRUCache cache;
-    public synchronized static ListPrimeFactors getInstance(String path, String limitStr) {
+    public synchronized static ListPrimeFactors getInstance(String path, String limitStr, int cacheSize, int cacheableMilliseconds) {
         if (INSTANCE == null) {
-            INSTANCE = new ListPrimeFactors(path, limitStr);
+            INSTANCE = new ListPrimeFactors(path, limitStr, cacheSize, cacheableMilliseconds);
         }
         return INSTANCE;
     }
 
+    //@Value("${cacheSize}")
+    private int cacheSize=1000;
 
+    //@Value("${cacheableMilliseconds")
+    private int cacheableMilliseconds=1000;
     private DB db;
-    private ListPrimeFactors(String path, String limitStr){
+    private ListPrimeFactors(String path, String limitStr, int cacheSize, int cacheableMilliseconds){
         NavigableSet<Long> tmpPrimeSet = null;
         try {
             db = DBMaker.fileDB(path).transactionEnable().make();
@@ -44,7 +47,9 @@ public class ListPrimeFactors {
             e.printStackTrace();
             primeSet = null;
         }
-        cache =  new LRUCache(100);
+        this.cacheSize = cacheSize;
+        this.cacheableMilliseconds = cacheableMilliseconds;
+        cache =  new LRUCache(cacheSize);
 
     }
 
@@ -60,7 +65,7 @@ public class ListPrimeFactors {
         ArrayList<BaseExponent> lbe = BuildBaseExponentList.build(factors);
         String result = generateBaseExponentFactorsString(lbe);
         long timeTaken = endTime-startTime;
-        if(timeTaken > 1000){
+        if(timeTaken > cacheableMilliseconds){
             System.out.println("caching result time taken " + timeTaken + " for " + num);
             cache.put(num, result);
         }

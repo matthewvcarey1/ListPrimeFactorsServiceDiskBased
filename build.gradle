@@ -30,7 +30,7 @@ jacocoTestReport {
 	afterEvaluate {
 		classDirectories.setFrom(files(classDirectories.files.collect {
 			fileTree(dir: it, exclude: [
-					"uk/co/example/romanNumbers/RomanNumbersApplication.class"
+					"uk/co/example/ListPrimeFactorsService/ListPrimeFactorsServiceApplication.class"
 			])
 		}))
 	}
@@ -44,5 +44,17 @@ test {
         minHeapSize = "128m" // initial heap size
         maxHeapSize = "20g" // maximum heap size
         jvmArgs = ['-Xmx20g'] // mem argument for the test JVM
+}
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'uk/co/example/ListPrimeFactorsService/ListPrimeFactorsServiceApplication.class'
+        )
+    }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } } {
+        exclude 'META-INF/*.RSA', 'META-INF/*.SF', 'META-INF/*.DSA'
+    }
 }
 

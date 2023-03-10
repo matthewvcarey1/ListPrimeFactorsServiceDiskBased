@@ -15,6 +15,13 @@ public class ListPrimeFactorsController {
     @Value("${upperLimitString}")
     String upperLimitString;
 
+    @Value("${cacheSize}")
+    String cacheSizeString;
+
+    @Value("${cacheableMilliSeconds}")
+    String cacheableMillisecondString;
+
+
     ListPrimeFactorsService pfs;
 
     // @GetMapping("/primefactors/{valueString}")
@@ -22,9 +29,13 @@ public class ListPrimeFactorsController {
     @GetMapping("/primefactors/{valueString}")
     public ListFactorsResult primePath(@PathVariable String valueString) {
         if(pfs == null) {
+            int cacheSize = Integer.parseInt(cacheSizeString);
+            int cacheableMilliseconds = Integer.parseInt(cacheableMillisecondString);
             pfs = new ListPrimeFactorsService();
             pfs.setPrimeDBPath(primesDbPath);
             pfs.setUpperLimitString(upperLimitString);
+            pfs.setCacheSize(cacheSize);
+            pfs.setCacheableMillisecs(cacheableMilliseconds);
         }
         return pfs.list(valueString);
     }
@@ -34,9 +45,13 @@ public class ListPrimeFactorsController {
     @GetMapping("/primeLimits/")
     public PrimeLimits primeLimits() {
         if(pfs == null) {
+            int cacheSize = Integer.parseInt(cacheSizeString);
+            int cacheableMilliseconds = Integer.parseInt(cacheableMillisecondString);
             pfs = new ListPrimeFactorsService();
             pfs.setPrimeDBPath(primesDbPath);
             pfs.setUpperLimitString(upperLimitString);
+            pfs.setCacheSize(cacheSize);
+            pfs.setCacheableMillisecs(cacheableMilliseconds);
         }
         return pfs.limits();
     }

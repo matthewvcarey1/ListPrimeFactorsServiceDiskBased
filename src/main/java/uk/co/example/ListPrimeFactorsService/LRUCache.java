@@ -1,5 +1,8 @@
 package uk.co.example.ListPrimeFactorsService;
-import java.util.*;
+
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 class LRUCache {
 
@@ -8,6 +11,7 @@ class LRUCache {
 
     public LRUCache(int capacity)
     {
+        System.out.println("Cache capacity="+capacity);
         this.cache = Collections.synchronizedMap(new LinkedHashMap<Long,String>(capacity));
         this.capacity = capacity;
     }

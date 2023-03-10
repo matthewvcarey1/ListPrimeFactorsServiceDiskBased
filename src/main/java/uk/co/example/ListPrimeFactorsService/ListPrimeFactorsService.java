@@ -1,9 +1,6 @@
 package uk.co.example.ListPrimeFactorsService;
 
-import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
@@ -51,10 +48,28 @@ public class ListPrimeFactorsService implements Serializable {
         return primesDbPath;
     }
 
+    public int cacheSize = 100;
+    public int cacheableMillisecs = 1000;
+
+    public void setCacheSize(int sz){
+        cacheSize = sz;
+    }
+
+    public int getCacheSize(){
+        return cacheSize;
+    }
+
+    public void setCacheableMillisecs(int cms){
+        cacheableMillisecs = cms;
+    }
+
+    public int getCacheableMillisecs(){
+        return cacheableMillisecs;
+    }
 
     public ListFactorsResult list(String num) {
         try {
-            if(lpf == null) lpf = ListPrimeFactors.getInstance(primesDbPath, upperLimitString);
+            if(lpf == null) lpf = ListPrimeFactors.getInstance(primesDbPath, upperLimitString,cacheSize, cacheableMillisecs);
             if(limit == 0) limit =  Long.parseLong(upperLimitString);
             long value = Long.parseLong(num);
 
@@ -73,7 +88,7 @@ public class ListPrimeFactorsService implements Serializable {
     public PrimeLimits limits() {
         PrimeLimits limits = new PrimeLimits();
         try {
-            if(lpf == null) lpf = ListPrimeFactors.getInstance(primesDbPath, upperLimitString);
+            if(lpf == null) lpf = ListPrimeFactors.getInstance(primesDbPath, upperLimitString, cacheSize, cacheableMillisecs);
             if(limit == 0) limit =  Long.parseLong(upperLimitString);
             final long upperLimit = this.limit;
             final long lowerLimit = 2L;
