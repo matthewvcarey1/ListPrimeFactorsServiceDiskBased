@@ -48,7 +48,7 @@ public final class Factors {
     private static synchronized void insertPrime(long num, NavigableSet<Long> primeSet, DB db) {
         System.out.println("inserting: "+num);
         primeSet.add(num);
-        db.commit();
+        if(db != null) db.commit();
     }
 
 }

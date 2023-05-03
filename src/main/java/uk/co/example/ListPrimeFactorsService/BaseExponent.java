@@ -49,4 +49,11 @@ public class BaseExponent {
         return buff.toString();
     }
 
+    // For the purpose of testing
+    public boolean equals(Object obj){
+        BaseExponent other = (BaseExponent) obj;
+        return (this.base == other.base
+                && this.exponent == other.exponent);
+    }
+
 }
