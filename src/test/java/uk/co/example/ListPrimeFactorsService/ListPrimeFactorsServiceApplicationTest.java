@@ -52,7 +52,6 @@ class ListPrimeFactorsServiceApplicationTest {
 
     @Test
     public void getPrimeLimits() throws Exception {
-
         this.mockMvc.perform(get("/primeLimits/"))
                 .andDo(print()).andExpect(status().isOk())
                 .andExpect(jsonPath("$.lowerLimit").value("2"))
