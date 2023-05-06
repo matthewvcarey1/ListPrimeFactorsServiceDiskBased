@@ -16,27 +16,41 @@ public class ListPrimeFactors {
     private static ListPrimeFactors INSTANCE;
 
     private LRUCache cache;
-    public synchronized static ListPrimeFactors getInstance(String path, String limitStr, int cacheSize, int cacheableMilliseconds) {
+    public synchronized static ListPrimeFactors getInstance(String path, String limitStr, int cacheSize, int cacheableMilliseconds, TreeSet<Long> mockSet) {
         if (INSTANCE == null) {
-            INSTANCE = new ListPrimeFactors(path, limitStr, cacheSize, cacheableMilliseconds);
+            INSTANCE = new ListPrimeFactors(path, limitStr, cacheSize, cacheableMilliseconds, mockSet);
         }
         return INSTANCE;
     }
 
+    protected synchronized static Boolean removeInstance() throws Exception{
+        if (INSTANCE != null) {
+            if(INSTANCE.db != null)
+                INSTANCE.db.close();
+            INSTANCE = null;
+        }
+        return true;
+    }
     //@Value("${cacheSize}")
     private int cacheSize=1000;
 
     //@Value("${cacheableMilliseconds")
     private int cacheableMilliseconds=1000;
     private DB db;
-    private ListPrimeFactors(String path, String limitStr, int cacheSize, int cacheableMilliseconds){
+    private ListPrimeFactors(String path, String limitStr, int cacheSize, int cacheableMilliseconds, TreeSet<Long> mockSet){
         NavigableSet<Long> tmpPrimeSet = null;
         try {
-            db = DBMaker.fileDB(path).transactionEnable().make();
-            primeSet = db
-                    .treeSet("mySet")
-                    .serializer(Serializer.LONG)
-                    .createOrOpen();
+            if(path == null) {
+                db = null;
+                primeSet = mockSet;
+            }
+            else {
+                db = DBMaker.fileDB(path).transactionEnable().make();
+                primeSet = db
+                        .treeSet("mySet")
+                        .serializer(Serializer.LONG)
+                        .createOrOpen();
+            }
             long last = primeSet.last();
             if(limitStr==null){
                 this.limit = limit;
@@ -50,7 +64,6 @@ public class ListPrimeFactors {
         this.cacheSize = cacheSize;
         this.cacheableMilliseconds = cacheableMilliseconds;
         cache =  new LRUCache(cacheSize);
-
     }
 
 

@@ -40,7 +40,7 @@ class FactorsTest {
     @Test
     void listFactors50() {
         ArrayList<Long> factors = Factors.listFactors(50L, primes, new ArrayList<Long>(),null);
-        ArrayList<Long> expected = new ArrayList<>(Arrays.asList(2L,3L,5L));
+        ArrayList<Long> expected = new ArrayList<>(Arrays.asList(2L,5L,5L));
         assertArrayEquals(expected.toArray(),factors.toArray());
     }
     @Test
