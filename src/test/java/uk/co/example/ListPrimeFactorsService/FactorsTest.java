@@ -64,4 +64,10 @@ class FactorsTest {
         assertEquals(primes.size(),oldSize + 1);
         assertTrue(primes.contains(1283L));
     }
+    @Test
+    void listFactors1() {
+        ArrayList<Long> factors = Factors.listFactors(1L, primes, new ArrayList<Long>(),null);
+        ArrayList<Long> expected = new ArrayList<>();
+        assertArrayEquals(expected.toArray(),factors.toArray());
+    }
 }

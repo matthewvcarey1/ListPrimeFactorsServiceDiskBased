@@ -51,8 +51,19 @@ class ListPrimeFactorsTest {
 
     @Test
     void listFactorsString() {
-        ListPrimeFactors lpf = ListPrimeFactors.getInstance(null,"2500", 10, 1, primes);
+        ListPrimeFactors lpf = ListPrimeFactors.getInstance(null,null, 10, -1, primes);
         String lfs = lpf.ListFactorsString(250);
         assertEquals("2 × 5³",lfs);
+    }
+    @Test
+    void validateTrue() {
+        ListPrimeFactors lpf = ListPrimeFactors.getInstance(null,"2500", 10, 1, primes);
+        assertTrue(lpf.validate(10L));
+    }
+
+    @Test
+    void validateFalse() {
+        ListPrimeFactors lpf = ListPrimeFactors.getInstance(null,"2500", 10, 1, primes);
+        assertFalse(lpf.validate(-1L));
     }
 }
