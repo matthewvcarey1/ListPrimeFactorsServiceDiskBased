@@ -18,7 +18,7 @@ public class ListPrimeFactorsService implements Serializable {
     private String upperLimitString;
 
     private long limit = 0;
-    private ListPrimeFactors lpf;
+    protected ListPrimeFactors lpf;
 
     public void setPrimeDBPath(String path){
         primesDbPath = path;
@@ -74,15 +74,12 @@ public class ListPrimeFactorsService implements Serializable {
             long value = Long.parseLong(num);
 
             if (!lpf.validate(value)) {
-                return new ListFactorsResult("Value not in range  2 - " + this.limit, "", Long.toString(value));
+                return new ListFactorsResult("Value not in range  2 - " + this.limit, "", "");
             }
             return new ListFactorsResult("", lpf.ListFactorsString(value), Long.toString(value));
         } catch (NumberFormatException e) {
             return new ListFactorsResult(PARSE_ERROR_MESSAGE, "", "");
-        } catch (Exception e) {
-            return new ListFactorsResult(e.toString(), "", "");
         }
-
     }
 
     public PrimeLimits limits() {
