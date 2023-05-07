@@ -31,6 +31,7 @@ class ListPrimeFactorsServiceTest {
         primes.add(41L);
         primes.add(43L);
         primes.add(47L);
+        primes.add(53L);
         try {
             ListPrimeFactors.removeInstance();
         } catch (Exception e){
