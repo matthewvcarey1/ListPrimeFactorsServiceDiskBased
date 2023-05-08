@@ -2,6 +2,10 @@
 
 A very silly REST service that very quickly finds the Prime Factors of numbers in a range. This range can be the entire range of java positive long integers, excluding 1. 
 
+Really if you want to find the prime factors of larger numbers there are at least two sites that will provide them: 
+
+https://www.wolframalpha.com/input?i=factorize+1374389534715675665 and http://www.socr.ucla.edu/Applets.dir/SOCR_PrimeNumberDecomposition.html .
+
 The prime numbers it uses are precalculated and stored in a disk based MapDB TreeSet.
 
 This is because there are a lot of prime numbers and it is not practical to have them all in memory.
