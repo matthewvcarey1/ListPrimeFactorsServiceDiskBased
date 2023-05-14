@@ -45,7 +45,7 @@ The disk based db files can be zipped or gzipped down to much smaller archives w
 You must edit the application.properties file and unzip dummy.db.zip before running or building this application.
 
 
-To build and slightly test
+To build and test
 ```
 ./gradlew clean build
 ```

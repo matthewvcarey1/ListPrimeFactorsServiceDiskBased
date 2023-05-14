@@ -73,9 +73,9 @@ public class ListPrimeFactors {
         if(cachedResult != null) return cachedResult;
         ArrayList<Long> factorsIn = new ArrayList<>();
         long startTime = System.currentTimeMillis();
-        ArrayList<Long> factors	= Factors.listFactors(num, primeSet, factorsIn, db);
+        List<Long> factors	= Factors.listFactors(num, primeSet, factorsIn, db);
         long endTime = System.currentTimeMillis();
-        ArrayList<BaseExponent> lbe = BuildBaseExponentList.build(factors);
+        List<BaseExponent> lbe = BuildBaseExponentList.build(factors);
         String result = generateBaseExponentFactorsString(lbe);
         long timeTaken = endTime-startTime;
         if(timeTaken > cacheableMilliseconds){
@@ -86,7 +86,7 @@ public class ListPrimeFactors {
 
     }
 
-    public static String generateBaseExponentFactorsString(ArrayList<BaseExponent> lbe) {
+    public static String generateBaseExponentFactorsString(List<BaseExponent> lbe) {
         StringBuilder sb = new StringBuilder();
         for (BaseExponent be : lbe) {
             if(!sb.isEmpty()) {

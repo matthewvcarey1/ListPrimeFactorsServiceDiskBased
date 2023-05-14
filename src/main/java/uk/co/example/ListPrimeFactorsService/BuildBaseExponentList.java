@@ -6,12 +6,13 @@ import java.util.stream.Collectors;
 
 public class BuildBaseExponentList {
     private BuildBaseExponentList(){}
-    protected static ArrayList<BaseExponent> build(ArrayList<Long> factors){
-        // Deduplicate in to a TreeMap with the key being the number and value how many times the number occurs.
-        Map<Long,Long> factorCountMap = factors.stream()
-                .collect(Collectors.toMap(Function.identity(), v -> 1L, Long::sum, TreeMap::new));
-        ArrayList<BaseExponent> lbe = new ArrayList<>();
-        // build the list of base exponents in the correct order because a tree map is sorted no more sorting is needed.
+
+    protected static List<BaseExponent> build(List<Long> factors) {
+        // Deduplicate into a TreeMap with the key being the number and value how many times the number occurs.
+        Map<Long, Long> factorCountMap = factors.stream()
+                .collect(Collectors.toMap(v -> v, v -> 1L, Long::sum, TreeMap::new));
+        List<BaseExponent> lbe = new ArrayList<>();
+        // Build the list of base exponents in the correct order because a TreeMap is sorted no more sorting is needed.
         for (Map.Entry<Long, Long> entry : factorCountMap.entrySet()) {
             lbe.add(new BaseExponent(entry.getKey(), entry.getValue()));
         }
