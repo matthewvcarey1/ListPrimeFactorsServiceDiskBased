@@ -3,14 +3,13 @@ package uk.co.example.ListPrimeFactorsService;
 import org.mapdb.DB;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.NavigableSet;
 
 
 public final class Factors {
 
     private Factors(){}
-    protected static ArrayList<Long> listFactors(long num, NavigableSet<Long> primeSet, ArrayList<Long> results, DB db) {
+    static ArrayList<Long> listFactors(long num, NavigableSet<Long> primeSet, ArrayList<Long> results, DB db) {
         // regular base case
         if (num < 2){
             return results;
@@ -20,10 +19,8 @@ public final class Factors {
             return results;
         }
         long sqrtNum = (long) Math.sqrt(num);
-        Iterator<Long> pit = primeSet.iterator();
-        while(pit.hasNext()){
-            long prime = pit.next();
-            if (prime > sqrtNum){
+        for (long prime : primeSet) {
+            if (prime > sqrtNum) {
                 break;
             }
             if (num % prime == 0) {
@@ -33,11 +30,7 @@ public final class Factors {
         }
         results.add(num);
         // Kick off a thread to store the newly discovered prime number in the database.
-        Runnable r = new Runnable() {
-            public void run() {
-                Factors.insertPrime(num, primeSet, db);
-            }
-        };
+        Runnable r = () -> Factors.insertPrime(num, primeSet, db);
         new Thread(r).start();
 
 

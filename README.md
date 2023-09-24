@@ -55,3 +55,11 @@ To run as a service
 ./gradlew clean bootRun
 ```
 
+To run in https:
+
+Changed all the http: references in index.html to https:
+
+To generate a p12 file from a certificate and key
+ openssl pkcs12 -export -name springboot -in certificate.crt -inkey private.key -out springboot.p12 
+
+Then copy the springboot.p12 to your src/main/resources folder

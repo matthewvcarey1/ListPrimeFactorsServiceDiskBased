@@ -47,7 +47,7 @@
     onpageshow = (event) => {
         let thisUrl = new URL(window.location.href);
         const inputLabel = document.getElementById('inputLabel');
-        const url = `http://${thisUrl.host}/primeLimits/`;
+        const url = `https://${thisUrl.host}/primeLimits/`;
         fetch(url)
     .then((response) => {
       return response.json();
@@ -75,7 +75,7 @@ function setPage(val){
   const  tbodyRef= resultsTable.getElementsByTagName('tbody')[0];
   const errorDiv = document.getElementById('errorValue');
   let thisUrl = new URL(window.location.href);
-  const baseUrl = `http://${thisUrl.host}/primefactors/`;
+  const baseUrl = `https://${thisUrl.host}/primefactors/`;
 
   let url = baseUrl+val.Number;
   

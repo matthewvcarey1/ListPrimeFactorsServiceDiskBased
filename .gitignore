@@ -35,3 +35,10 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### Cerificates
+*.p12
+
+### bak files
+*.bak
+
