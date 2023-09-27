@@ -2,10 +2,7 @@ package uk.co.example.ListPrimeFactorsService;
 
 import java.util.*;
 
-import org.mapdb.DB;
-import org.mapdb.DBException;
-import org.mapdb.DBMaker;
-import org.mapdb.Serializer;
+import org.mapdb.*;
 
 
 public class ListPrimeFactors {
@@ -13,12 +10,13 @@ public class ListPrimeFactors {
     public long limit;
 
     private NavigableSet<Long>  primeSet;
+    private NavigableMap<Long, Long> slowCompositeMap;
     private static ListPrimeFactors INSTANCE;
 
     private LRUCache cache;
-    public synchronized static ListPrimeFactors getInstance(String path, String limitStr, int cacheSize, int cacheableMilliseconds, TreeSet<Long> mockSet) {
+    public synchronized static ListPrimeFactors getInstance(String path, String limitStr, int cacheSize, int cacheableMilliseconds, TreeSet<Long> mockSet, TreeMap<Long,Long> mockMap) {
         if (INSTANCE == null) {
-            INSTANCE = new ListPrimeFactors(path, limitStr, cacheSize, cacheableMilliseconds, mockSet);
+            INSTANCE = new ListPrimeFactors(path, limitStr, cacheSize, cacheableMilliseconds, mockSet, mockMap);
         }
         return INSTANCE;
     }
@@ -37,18 +35,24 @@ public class ListPrimeFactors {
     //@Value("${cacheableMilliseconds")
     private int cacheableMilliseconds=1000;
     private DB db;
-    private ListPrimeFactors(String path, String limitStr, int cacheSize, int cacheableMilliseconds, TreeSet<Long> mockSet){
+    private ListPrimeFactors(String path, String limitStr, int cacheSize, int cacheableMilliseconds, TreeSet<Long> mockSet, TreeMap<Long, Long> mockMap){
         NavigableSet<Long> tmpPrimeSet = null;
+
         try {
             if(path == null) {
                 db = null;
                 primeSet = mockSet;
+                slowCompositeMap = mockMap;
             }
             else {
                 db = DBMaker.fileDB(path).transactionEnable().make();
                 primeSet = db
                         .treeSet("mySet")
                         .serializer(Serializer.LONG)
+                        .createOrOpen();
+                slowCompositeMap = db.treeMap("compositeMap")
+                        .keySerializer(Serializer.LONG)
+                        .valueSerializer(Serializer.LONG)
                         .createOrOpen();
             }
             long last = primeSet.last();
@@ -69,18 +73,27 @@ public class ListPrimeFactors {
 
 
     public String ListFactorsString(long num) {
-        String cachedResult = cache.get(num);
-        if(cachedResult != null) return cachedResult;
+        //String cachedResult = cache.get(num);
+        //if(cachedResult != null) return cachedResult;
         ArrayList<Long> factorsIn = new ArrayList<>();
         long startTime = System.currentTimeMillis();
-        List<Long> factors	= Factors.listFactors(num, primeSet, factorsIn, db);
+        FactorResultFlags flags = new FactorResultFlags();
+        List<Long> factors	= Factors.listFactors(num, primeSet, slowCompositeMap, factorsIn, db, flags);
         long endTime = System.currentTimeMillis();
         List<BaseExponent> lbe = BuildBaseExponentList.build(factors);
         String result = generateBaseExponentFactorsString(lbe);
         long timeTaken = endTime-startTime;
         if(timeTaken > cacheableMilliseconds){
-            System.out.println("caching result time taken " + timeTaken + " for " + num);
-            cache.put(num, result);
+            if (flags.getNewPrime() == false){
+                int size = factors.size();
+                long smallFactor = factors.get(size - 2);
+                long bigFactor =  factors.get(size - 1);
+                long key = smallFactor * bigFactor;
+                Runnable r = () -> ListPrimeFactors.insertScm(key, smallFactor, slowCompositeMap, db);
+                new Thread(r).start();
+            }
+            System.out.println("result time taken " + timeTaken + " for " + num);
+            //cache.put(num, result);
         }
         return result;
 
@@ -107,5 +120,12 @@ public class ListPrimeFactors {
             return false;
         }
         return true;
+    }
+
+
+    private static synchronized void insertScm(long key, long value, NavigableMap<Long,Long> scm, DB db) {
+        System.out.println("inserting key: " + key + " value: "+ value);
+        scm.put(key,value);
+        if(db != null) db.commit();
     }
 }

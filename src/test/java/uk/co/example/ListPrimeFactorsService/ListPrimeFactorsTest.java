@@ -6,11 +6,13 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ListPrimeFactorsTest {
+    TreeMap<Long, Long> scm = new TreeMap<>();
     TreeSet<Long> primes;
     @BeforeEach
     void setUp() {
@@ -51,19 +53,19 @@ class ListPrimeFactorsTest {
 
     @Test
     void listFactorsString() {
-        ListPrimeFactors lpf = ListPrimeFactors.getInstance(null,null, 10, -1, primes);
+        ListPrimeFactors lpf = ListPrimeFactors.getInstance(null,null, 10, -1, primes, scm);
         String lfs = lpf.ListFactorsString(250);
         assertEquals("2 × 5³",lfs);
     }
     @Test
     void validateTrue() {
-        ListPrimeFactors lpf = ListPrimeFactors.getInstance(null,"2500", 10, 1, primes);
+        ListPrimeFactors lpf = ListPrimeFactors.getInstance(null,"2500", 10, 1, primes, scm);
         assertTrue(lpf.validate(10L));
     }
 
     @Test
     void validateFalse() {
-        ListPrimeFactors lpf = ListPrimeFactors.getInstance(null,"2500", 10, 1, primes);
+        ListPrimeFactors lpf = ListPrimeFactors.getInstance(null,"2500", 10, 1, primes, scm);
         assertFalse(lpf.validate(-1L));
     }
 }

@@ -2,6 +2,7 @@ package uk.co.example.ListPrimeFactorsService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.TreeMap;
 import java.util.TreeSet;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class FactorsTest {
 
+    TreeMap<Long, Long> scm = new TreeMap();
     TreeSet<Long> primes;
     @BeforeEach
     void setUp() {
@@ -39,20 +41,20 @@ class FactorsTest {
 
     @Test
     void listFactors50() {
-        ArrayList<Long> factors = Factors.listFactors(50L, primes, new ArrayList<Long>(),null);
+        ArrayList<Long> factors = Factors.listFactors(50L, primes, scm, new ArrayList<Long>(),null, new FactorResultFlags());
         ArrayList<Long> expected = new ArrayList<>(Arrays.asList(2L,5L,5L));
         assertArrayEquals(expected.toArray(),factors.toArray());
     }
     @Test
     void listFactors2500() {
-        ArrayList<Long> factors = Factors.listFactors(2500L, primes, new ArrayList<Long>(),null);
+        ArrayList<Long> factors = Factors.listFactors(2500L, primes, scm, new ArrayList<Long>(),null, new FactorResultFlags());
         ArrayList<Long> expected = new ArrayList<>(Arrays.asList(2L,2L,5L,5L,5L,5L));
         assertArrayEquals(expected.toArray(),factors.toArray());
     }
     @Test
     void listFactors1283() {
         int oldSize = primes.size();
-        ArrayList<Long> factors = Factors.listFactors(1283L, primes, new ArrayList<Long>(),null);
+        ArrayList<Long> factors = Factors.listFactors(1283L, primes, scm, new ArrayList<Long>(),null, new FactorResultFlags());
         ArrayList<Long> expected = new ArrayList<>(Arrays.asList(1283L));
         assertArrayEquals(expected.toArray(),factors.toArray());
         try {
@@ -66,7 +68,7 @@ class FactorsTest {
     }
     @Test
     void listFactors1() {
-        ArrayList<Long> factors = Factors.listFactors(1L, primes, new ArrayList<Long>(),null);
+        ArrayList<Long> factors = Factors.listFactors(1L, primes, scm, new ArrayList<Long>(),null, new FactorResultFlags());
         ArrayList<Long> expected = new ArrayList<>();
         assertArrayEquals(expected.toArray(),factors.toArray());
     }

@@ -4,6 +4,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -11,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ListPrimeFactorsServiceTest {
 
     private ListPrimeFactorsService lps;
+    private TreeMap<Long, Long> scm = new TreeMap<>();
     private TreeSet<Long> primes;
     @BeforeEach
     void setUp() {
@@ -37,7 +39,7 @@ class ListPrimeFactorsServiceTest {
         } catch (Exception e){
             e.printStackTrace();
         }
-        ListPrimeFactors lpf = ListPrimeFactors.getInstance(null,"2500", 10, 1, primes);
+        ListPrimeFactors lpf = ListPrimeFactors.getInstance(null,"2500", 10, 1, primes, scm);
         lps.setLimit(2500L);
         lps.setUpperLimitString("2500");
         lps.setLpf(lpf);

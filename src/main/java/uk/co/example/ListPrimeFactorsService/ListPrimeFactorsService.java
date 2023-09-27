@@ -69,7 +69,7 @@ public class ListPrimeFactorsService implements Serializable {
 
     public ListFactorsResult list(String num) {
         try {
-            if(lpf == null) lpf = ListPrimeFactors.getInstance(primesDbPath, upperLimitString,cacheSize, cacheableMillisecs, null);
+            if(lpf == null) lpf = ListPrimeFactors.getInstance(primesDbPath, upperLimitString,cacheSize, cacheableMillisecs, null,  null);
             if(limit == 0) limit =  Long.parseLong(upperLimitString);
             long value = Long.parseLong(num);
 
@@ -85,7 +85,7 @@ public class ListPrimeFactorsService implements Serializable {
     public PrimeLimits limits() {
         PrimeLimits limits = new PrimeLimits();
         try {
-            if(lpf == null) lpf = ListPrimeFactors.getInstance(primesDbPath, upperLimitString, cacheSize, cacheableMillisecs, null);
+            if(lpf == null) lpf = ListPrimeFactors.getInstance(primesDbPath, upperLimitString, cacheSize, cacheableMillisecs, null, null);
             if(limit == 0) limit =  Long.parseLong(upperLimitString);
             final long upperLimit = this.limit;
             final long lowerLimit = 2L;

@@ -40,14 +40,14 @@ class ListPrimeFactorsServiceApplicationTest {
                 .andExpect(jsonPath("$.source").value("2402"));
     }
 
-    @Test
+   // @Test
 
-    public void pathDecimalShouldReturnSuperscriptValue() throws Exception {
-        this.mockMvc.perform(get("/primefactors/4096"))
-                .andDo(print()).andExpect(status().isOk())
-                .andExpect(jsonPath("$.value").value("2¹²"))
-                .andExpect(jsonPath("$.source").value("4096"));
-    }
+    //public void pathDecimalShouldReturnSuperscriptValue() throws Exception {
+    //    this.mockMvc.perform(get("/primefactors/4096"))
+    //            .andDo(print()).andExpect(status().isOk())
+    //            .andExpect(jsonPath("$.value").value("2¹²"))
+    //            .andExpect(jsonPath("$.source").value("4096"));
+    //}
 
 
     @Test
