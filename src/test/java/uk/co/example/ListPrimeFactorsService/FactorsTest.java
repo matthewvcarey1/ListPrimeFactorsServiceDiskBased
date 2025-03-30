@@ -1,9 +1,7 @@
 package uk.co.example.ListPrimeFactorsService;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.TreeMap;
-import java.util.TreeSet;
+import java.util.*;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class FactorsTest {
 
-    TreeMap<Long, Long> scm = new TreeMap();
+    TreeMap<Long, Long> scm = new TreeMap<>();
     TreeSet<Long> primes;
     @BeforeEach
     void setUp() {
@@ -55,7 +53,7 @@ class FactorsTest {
     void listFactors1283() {
         int oldSize = primes.size();
         ArrayList<Long> factors = Factors.listFactors(1283L, primes, scm, new ArrayList<Long>(),null, new FactorResultFlags());
-        ArrayList<Long> expected = new ArrayList<>(Arrays.asList(1283L));
+        ArrayList<Long> expected = new ArrayList<>(List.of(1283L));
         assertArrayEquals(expected.toArray(),factors.toArray());
         try {
             Thread.sleep(10);

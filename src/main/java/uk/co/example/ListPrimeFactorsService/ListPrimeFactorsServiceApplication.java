@@ -9,7 +9,9 @@ import org.springframework.context.annotation.ComponentScan;
 public class ListPrimeFactorsServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ListPrimeFactorsServiceApplication.class, args);
+		SpringApplication.run(
+				ListPrimeFactorsServiceApplication.class, args
+		);
 	}
 
 }

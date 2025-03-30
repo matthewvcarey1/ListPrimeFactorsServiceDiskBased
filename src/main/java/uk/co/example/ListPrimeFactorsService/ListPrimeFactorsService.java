@@ -69,8 +69,9 @@ public class ListPrimeFactorsService implements Serializable {
 
     public ListFactorsResult list(String num) {
         try {
-            if(lpf == null) lpf = ListPrimeFactors.getInstance(primesDbPath, upperLimitString,cacheSize, cacheableMillisecs, null,  null);
+            if(this.lpf == null) this.lpf = ListPrimeFactors.getInstance(primesDbPath, upperLimitString,cacheSize, cacheableMillisecs, null,  null);
             if(limit == 0) limit =  Long.parseLong(upperLimitString);
+
             long value = Long.parseLong(num);
 
             if (!lpf.validate(value)) {

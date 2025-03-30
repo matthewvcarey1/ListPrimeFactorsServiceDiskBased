@@ -1,5 +1,8 @@
 package uk.co.example.ListPrimeFactorsService;
 
+/**
+ * Mutable boolean holder for flag
+ */
 public class FactorResultFlags {
     private boolean newPrime;
 

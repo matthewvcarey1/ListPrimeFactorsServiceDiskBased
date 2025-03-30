@@ -10,6 +10,17 @@ import java.util.NavigableSet;
 public final class Factors {
 
     private Factors(){}
+
+    /**
+     * Generate list of prime factors for a given number
+     * @param num the input.
+     * @param primeSet persistent set of existing primes
+     * @param slowCompositeMap persistent map of slow to compute composite numbers
+     * @param results the store for factors
+     * @param db persistent database
+     * @param flags to signal if a new prime was added to the persistent set of primes
+     * @return results
+     */
     static ArrayList<Long> listFactors(long num,
                                        NavigableSet<Long> primeSet, NavigableMap<Long,Long> slowCompositeMap,
                                        ArrayList<Long> results,
@@ -43,12 +54,20 @@ public final class Factors {
         // Kick off a thread to store the newly discovered prime number in the database.
         Runnable r = () -> Factors.insertPrime(num, primeSet, db);
         new Thread(r).start();
-
-
         return results;
     }
 
-
+    /**
+     * Inserts number in set of primes
+     * @param num
+     * the number to insert.
+     *
+     * @param primeSet
+     * set of primes.
+     *
+     * @param db
+     * the disk based db could be null.
+     */
     private static synchronized void insertPrime(long num, NavigableSet<Long> primeSet, DB db) {
         System.out.println("inserting: "+num);
         primeSet.add(num);

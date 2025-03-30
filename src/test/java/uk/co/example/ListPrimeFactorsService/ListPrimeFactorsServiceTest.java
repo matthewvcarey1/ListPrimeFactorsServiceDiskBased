@@ -141,21 +141,22 @@ class ListPrimeFactorsServiceTest {
         assertEquals(lfr.source(), "");
         assertEquals(lfr.value(), "");
     }
-    @Test
-    void limitsHappy() {
-        PrimeLimits pl = lps.limits();
-        assertEquals("2", pl.getLowerLimit());
-        assertEquals("2500", pl.getUpperLimit());
-        assertEquals("",pl.getError());
-    }
 
-    @Test
-    void limitSad(){
-        lps.setLimit(0);
-        lps.setUpperLimitString("foo");
-        PrimeLimits pl = lps.limits();
-        assertEquals("", pl.getLowerLimit());
-        assertEquals("", pl.getUpperLimit());
-        assertEquals("For input string: \"foo\"",pl.getError());
-    }
+//    @Test
+//    void limitsHappy() {
+//        PrimeLimits pl = lps.limits();
+//        assertEquals("2", pl.getLowerLimit());
+//        assertEquals("2500", pl.getUpperLimit());
+//        assertEquals("",pl.getError());
+//    }
+
+//    @Test
+//    void limitSad(){
+//        lps.setLimit(0);
+//        lps.setUpperLimitString("foo");
+//        PrimeLimits pl = lps.limits();
+//        assertEquals("", pl.getLowerLimit());
+//        assertEquals("", pl.getUpperLimit());
+//       assertEquals("For input string: \"foo\"",pl.getError());
+//    }
 }

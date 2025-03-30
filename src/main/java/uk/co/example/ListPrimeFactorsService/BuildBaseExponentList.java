@@ -6,6 +6,11 @@ import java.util.stream.Collectors;
 public class BuildBaseExponentList {
     private BuildBaseExponentList(){}
 
+    /**
+     * Turn a list of factors into list of base exponent instances
+     * @param factors list of factors
+     * @return list of base exponents
+     */
     protected static List<BaseExponent> build(List<Long> factors) {
         // Deduplicate into a TreeMap with the key being the number and value how many times the number occurs.
         Map<Long, Long> factorCountMap = factors.stream()

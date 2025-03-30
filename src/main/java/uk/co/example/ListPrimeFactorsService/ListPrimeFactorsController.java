@@ -25,16 +25,16 @@ public class ListPrimeFactorsController {
     ListPrimeFactorsService pfs;
 
     private ListPrimeFactorsService setPfs(){
-        if(pfs == null) {
+        if(this.pfs == null) {
             int cacheSize = Integer.parseInt(cacheSizeString);
             int cacheableMilliseconds = Integer.parseInt(cacheableMillisecondString);
-            pfs = new ListPrimeFactorsService();
-            pfs.setPrimeDBPath(primesDbPath);
-            pfs.setUpperLimitString(upperLimitString);
-            pfs.setCacheSize(cacheSize);
-            pfs.setCacheableMillisecs(cacheableMilliseconds);
+            this.pfs = new ListPrimeFactorsService();
+            this.pfs.setPrimeDBPath(primesDbPath);
+            this.pfs.setUpperLimitString(upperLimitString);
+            this.pfs.setCacheSize(cacheSize);
+            this.pfs.setCacheableMillisecs(cacheableMilliseconds);
         }
-        return pfs;
+        return this.pfs;
     }
 
 
@@ -42,16 +42,16 @@ public class ListPrimeFactorsController {
     //@RequestMapping(value = "/primefactors/{valueString}", method = RequestMethod.GET)
     @GetMapping("/primefactors/{valueString}")
     public ListFactorsResult primePath(@PathVariable String valueString) {
-        pfs = setPfs();
-        return pfs.list(valueString);
+        this.pfs = setPfs();
+        return this.pfs.list(valueString);
     }
 
     //  @GetMapping("/primeLimits/")
     // @RequestMapping(value = "/primeLimits/", method = RequestMethod.GET)
     @GetMapping("/primeLimits/")
     public PrimeLimits primeLimits() {
-        pfs = setPfs();
-        return pfs.limits();
+        this.pfs = setPfs();
+        return this.pfs.limits();
     }
 
     @RequestMapping("/")

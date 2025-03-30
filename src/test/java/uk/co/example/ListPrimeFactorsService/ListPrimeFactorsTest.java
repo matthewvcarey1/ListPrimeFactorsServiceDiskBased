@@ -53,7 +53,7 @@ class ListPrimeFactorsTest {
 
     @Test
     void listFactorsString() {
-        ListPrimeFactors lpf = ListPrimeFactors.getInstance(null,null, 10, -1, primes, scm);
+        ListPrimeFactors lpf = ListPrimeFactors.getInstance(null,"2500", 10, -1, primes, scm);
         String lfs = lpf.ListFactorsString(250);
         assertEquals("2 × 5³",lfs);
     }
